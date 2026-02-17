@@ -1317,74 +1317,358 @@
             terminalBody.scrollTop = terminalBody.scrollHeight;
         }
 
+        const fortunes = [
+            "The best error message is the one that never shows up.",
+            "First, solve the problem. Then, write the code. — John Johnson",
+            "It works on my machine. Ship the machine.",
+            "There are only two hard things: cache invalidation, naming things, and off-by-one errors.",
+            "// TODO: fix this later   — written mass years ago",
+            "Talk is cheap. Show me the code. — Linus Torvalds",
+            "Deleted code is debugged code.",
+            "A good programmer looks both ways before crossing a one-way street.",
+            "Weeks of coding can save you hours of planning.",
+            "sudo make me a sandwich.",
+            "The cloud is just someone else's computer.",
+            "There is no place like 127.0.0.1.",
+        ];
+
         const commands = {
             help: function() {
                 termPrint('');
                 termPrint('Available commands:', 'green');
-                termPrint('  help       — Show this message');
+                termPrint('');
+                termPrint('  Info', 'blue');
                 termPrint('  about      — Who am I');
                 termPrint('  projects   — My featured projects');
                 termPrint('  skills     — Tech stack');
-                termPrint('  neofetch   — System info');
                 termPrint('  contact    — Social links');
+                termPrint('  neofetch   — System info');
+                termPrint('');
+                termPrint('  Fun', 'blue');
+                termPrint('  whoami     — Identity check');
+                termPrint('  pwd        — Where am I');
+                termPrint('  ls         — List files');
+                termPrint('  cat <file> — Read a file');
+                termPrint('  sudo <cmd> — Try it, I dare you');
+                termPrint('  fortune    — Random dev wisdom');
+                termPrint('  cowsay     — Moo');
+                termPrint('  hack       — Initiate hack sequence');
+                termPrint('  matrix     — Enter the matrix');
+                termPrint('  ping       — Ping dhruv.local');
+                termPrint('  uptime     — How long have I been here');
+                termPrint('  date       — Current date');
+                termPrint('  coffee     — Brew some coffee');
+                termPrint('  rickroll   — Don\'t do it');
+                termPrint('  secret     — ???');
+                termPrint('');
+                termPrint('  Utility', 'blue');
                 termPrint('  echo <msg> — Echo a message');
+                termPrint('  history    — Command history');
                 termPrint('  clear      — Clear terminal');
                 termPrint('');
             },
             about: function() {
                 termPrint('');
                 termPrint('  Dhruv Joshi', 'green');
-                termPrint('  Forward Deployed Engineer @ GEC Raipur');
                 termPrint('  Forward Deployed Engineer (FDE)');
-                termPrint('  I build tools to make CS concepts accessible.');
+                termPrint('  ');
+                termPrint('  I don\'t just write code — I deploy to where the');
+                termPrint('  problem lives and build the solution on-site.');
+                termPrint('  From collab editors to systems deep-dives,');
+                termPrint('  I ship things that work in the real world.');
                 termPrint('');
             },
             projects: function() {
                 termPrint('');
                 termPrint('  Featured Projects:', 'green');
-                termPrintHTML('  <span style="color:#00ff88">1.</span> CODEDEX — Collaborative code editor');
-                termPrintHTML('     <a href="https://codedex-app.vercel.app/" target="_blank" style="color:#00aaff">https://codedex-app.vercel.app/</a>');
-                termPrintHTML('  <span style="color:#00ff88">2.</span> cs-visual-lab — Algorithm visualizer');
-                termPrintHTML('     <a href="https://cs-visual-lab.vercel.app/" target="_blank" style="color:#00aaff">https://cs-visual-lab.vercel.app/</a>');
-                termPrintHTML('  <span style="color:#00ff88">3.</span> cs-internals-explorer — CS internals');
-                termPrintHTML('     <a href="https://dhruvjoshi-git.github.io/cs-internals-explorer/" target="_blank" style="color:#00aaff">https://dhruvjoshi-git.github.io/cs-internals-explorer/</a>');
-                termPrintHTML('  <span style="color:#00ff88">4.</span> rust-vs-python-deepdive — Compilation pipeline');
-                termPrintHTML('     <a href="https://dhruvjoshi-git.github.io/rust-vs-python-deepdive/" target="_blank" style="color:#00aaff">https://dhruvjoshi-git.github.io/rust-vs-python-deepdive/</a>');
+                termPrint('');
+                termPrintHTML('  <span style="color:#00ff88">01</span> CODEDEX <span style="color:#888">— Collaborative code editor</span>');
+                termPrintHTML('     <a href="https://codedex-app.vercel.app/" target="_blank" style="color:#00aaff">codedex-app.vercel.app</a>');
+                termPrint('');
+                termPrintHTML('  <span style="color:#00ff88">02</span> cs-visual-lab <span style="color:#888">— Algorithm visualizer</span>');
+                termPrintHTML('     <a href="https://cs-visual-lab.vercel.app/" target="_blank" style="color:#00aaff">cs-visual-lab.vercel.app</a>');
+                termPrint('');
+                termPrintHTML('  <span style="color:#00ff88">03</span> cs-internals-explorer <span style="color:#888">— CS internals</span>');
+                termPrintHTML('     <a href="https://dhruvjoshi-git.github.io/cs-internals-explorer/" target="_blank" style="color:#00aaff">dhruvjoshi-git.github.io/cs-internals-explorer</a>');
+                termPrint('');
+                termPrintHTML('  <span style="color:#00ff88">04</span> rust-vs-python-deepdive <span style="color:#888">— Compilation pipeline</span>');
+                termPrintHTML('     <a href="https://dhruvjoshi-git.github.io/rust-vs-python-deepdive/" target="_blank" style="color:#00aaff">dhruvjoshi-git.github.io/rust-vs-python-deepdive</a>');
                 termPrint('');
             },
             skills: function() {
                 termPrint('');
                 termPrint('  Tech Stack:', 'green');
-                termPrint('  Languages  : Python, JavaScript, TypeScript, Rust, C/C++');
-                termPrint('  Frontend   : React, HTML/CSS, Tailwind');
-                termPrint('  Backend    : Node.js, Express, WebSockets');
-                termPrint('  Tools      : Git, Docker, Linux, VS Code');
-                termPrint('  Interests  : ML/AI, Systems Programming, Compilers');
+                termPrint('  ┌──────────────────────────────────────────┐');
+                termPrint('  │ Languages  │ Python JS TS Rust C/C++     │');
+                termPrint('  │ Frontend   │ React HTML/CSS Tailwind     │');
+                termPrint('  │ Backend    │ Node.js Express WebSockets  │');
+                termPrint('  │ Tools      │ Git Docker Linux VS Code    │');
+                termPrint('  │ Domains    │ ML/AI Systems Compilers     │');
+                termPrint('  └──────────────────────────────────────────┘');
                 termPrint('');
             },
             neofetch: function() {
                 termPrint('');
-                termPrint('        ██████╗      dhruv@portfolio', 'green');
-                termPrint('        ██╔═══╝      ─────────────────', 'green');
-                termPrint('        ██║          OS: Web/Linux', 'green');
-                termPrint('        ██║          Host: dhruv.local', 'green');
-                termPrint('        ██████╗      Shell: bash 5.1', 'green');
-                termPrint('        ╚═════╝      Editor: VS Code', 'green');
-                termPrint('                     Lang: JS/TS/Py/Rust/C++', 'green');
-                termPrint('                     Role: Forward Deployed Engineer', 'green');
+                termPrintHTML('  <span style="color:#00ff88">        ██████╗ </span>     dhruv@portfolio');
+                termPrintHTML('  <span style="color:#00ff88">        ██╔═══╝ </span>     ─────────────────');
+                termPrintHTML('  <span style="color:#00ff88">        ██║     </span>     OS: Web/Linux');
+                termPrintHTML('  <span style="color:#00ff88">        ██║     </span>     Host: dhruv.local');
+                termPrintHTML('  <span style="color:#00ff88">        ██████╗ </span>     Shell: bash 5.1');
+                termPrintHTML('  <span style="color:#00ff88">        ╚═════╝ </span>     Editor: VS Code');
+                termPrintHTML('                          Lang: JS/TS/Py/Rust/C++');
+                termPrintHTML('                          Role: <span style="color:#00ff88">Forward Deployed Engineer</span>');
+                termPrintHTML('                          <span style="color:#ff5f56">███</span><span style="color:#ffbd2e">███</span><span style="color:#27c93f">███</span><span style="color:#00aaff">███</span><span style="color:#aa44ff">███</span><span style="color:#e0e0e0">███</span>');
                 termPrint('');
             },
             contact: function() {
                 termPrint('');
                 termPrint('  Get in touch:', 'green');
-                termPrintHTML('  GitHub   : <a href="https://github.com/DhruvJoshi-GIT" target="_blank" style="color:#00aaff">github.com/DhruvJoshi-GIT</a>');
-                termPrintHTML('  LinkedIn : <a href="https://www.linkedin.com/in/dhruv-joshi-52769b265/" target="_blank" style="color:#00aaff">linkedin.com/in/dhruv-joshi</a>');
-                termPrintHTML('  Twitter  : <a href="https://x.com/mdhruvjoshi" target="_blank" style="color:#00aaff">x.com/mdhruvjoshi</a>');
-                termPrintHTML('  Email    : <a href="mailto:mdhruvjoshi@gmail.com" style="color:#00aaff">mdhruvjoshi@gmail.com</a>');
+                termPrintHTML('  GitHub   → <a href="https://github.com/DhruvJoshi-GIT" target="_blank" style="color:#00aaff">github.com/DhruvJoshi-GIT</a>');
+                termPrintHTML('  LinkedIn → <a href="https://www.linkedin.com/in/dhruv-joshi-52769b265/" target="_blank" style="color:#00aaff">linkedin.com/in/dhruv-joshi</a>');
+                termPrintHTML('  Twitter  → <a href="https://x.com/mdhruvjoshi" target="_blank" style="color:#00aaff">x.com/mdhruvjoshi</a>');
+                termPrintHTML('  Email    → <a href="mailto:mdhruvjoshi@gmail.com" style="color:#00aaff">mdhruvjoshi@gmail.com</a>');
+                termPrint('');
+            },
+            whoami: function() {
+                termPrint('dhruv — Forward Deployed Engineer', 'green');
+            },
+            pwd: function() {
+                termPrint('/home/dhruv/portfolio');
+            },
+            ls: function() {
+                termPrintHTML('<span style="color:#00aaff">projects/</span>  <span style="color:#00aaff">skills/</span>  <span style="color:#00ff88">about.md</span>  <span style="color:#00ff88">resume.pdf</span>  <span style="color:#888">.secret</span>  <span style="color:#00ff88">README.md</span>');
+            },
+            cat: function(args) {
+                if (!args) {
+                    termPrint('Usage: cat <filename>', 'purple');
+                    return;
+                }
+                const file = args.trim().toLowerCase();
+                const files = {
+                    'about.md': function() {
+                        termPrint('');
+                        termPrint('# Dhruv Joshi', 'green');
+                        termPrint('Forward Deployed Engineer. Ships fast.');
+                        termPrint('Breaks things. Fixes them faster.');
+                        termPrint('');
+                    },
+                    'readme.md': function() {
+                        termPrint('');
+                        termPrint('# dhruv.local', 'green');
+                        termPrint('> If it compiles, ship it.');
+                        termPrint('> If it doesn\'t, ship it anyway and call it a feature.');
+                        termPrint('');
+                    },
+                    'resume.pdf': function() {
+                        termPrint('');
+                        termPrint('Nice try. Hire me first.', 'purple');
+                        termPrintHTML('Reach out → <a href="mailto:mdhruvjoshi@gmail.com" style="color:#00aaff">mdhruvjoshi@gmail.com</a>');
+                        termPrint('');
+                    },
+                    '.secret': function() {
+                        termPrint('');
+                        termPrintHTML('<span style="color:#aa44ff">🔮 You found the hidden file.</span>');
+                        termPrint('  The mass password is: nice-try-lol');
+                        termPrint('  ...just kidding. But you\'re curious. I like that.');
+                        termPrint('');
+                    }
+                };
+                if (files[file]) {
+                    files[file]();
+                } else {
+                    termPrint('cat: ' + args + ': No such file or directory', 'purple');
+                }
+            },
+            sudo: function(args) {
+                if (!args) {
+                    termPrint('sudo: specify a command.', 'purple');
+                    return;
+                }
+                termPrint('');
+                termPrint('[sudo] password for visitor: ********', 'green');
+                termPrint('');
+                if (args.includes('rm -rf') || args.includes('rm -r')) {
+                    termPrint('☠️  Nice try. This portfolio is indestructible.', 'purple');
+                } else if (args.includes('hire')) {
+                    termPrint('✅ Request approved. Sending offer letter...', 'green');
+                    termPrint('   Just kidding. But seriously, let\'s talk.', 'green');
+                    termPrintHTML('   → <a href="mailto:mdhruvjoshi@gmail.com" style="color:#00aaff">mdhruvjoshi@gmail.com</a>');
+                } else if (args.includes('make me a sandwich')) {
+                    termPrint('🥪 Okay.', 'green');
+                } else {
+                    termPrint('visitor is not in the sudoers file.', 'purple');
+                    termPrint('This incident will be reported.', 'purple');
+                }
+                termPrint('');
+            },
+            fortune: function() {
+                termPrint('');
+                termPrint('  ' + fortunes[Math.floor(Math.random() * fortunes.length)], 'green');
+                termPrint('');
+            },
+            cowsay: function(args) {
+                const msg = args || 'moo';
+                const border = '─'.repeat(msg.length + 2);
+                termPrint('');
+                termPrint('  ┌' + border + '┐');
+                termPrint('  │ ' + msg + ' │');
+                termPrint('  └' + border + '┘');
+                termPrint('         \\   ^__^');
+                termPrint('          \\  (oo)\\_______');
+                termPrint('             (__)\\       )\\/\\');
+                termPrint('                 ||----w |');
+                termPrint('                 ||     ||');
+                termPrint('');
+            },
+            hack: function() {
+                termPrint('');
+                termPrint('  [▓▓▓▓▓▓▓▓▓▓] Initializing hack sequence...', 'green');
+                const hackLines = [
+                    '  Bypassing mainframe firewall...',
+                    '  Injecting SQL into Gibson...',
+                    '  Downloading the internet...',
+                    '  Reversing polarity of neutron flow...',
+                    '  Decrypting Pentagon lunch menu...',
+                    '  Compiling 10 trillion lines of Rust...',
+                    '  Access granted.',
+                    '',
+                    '  Just kidding. But I do know my way around a terminal.',
+                ];
+                let i = 0;
+                function hackStep() {
+                    if (i < hackLines.length) {
+                        termPrint(hackLines[i], i === hackLines.length - 2 ? 'green' : '');
+                        i++;
+                        setTimeout(hackStep, 350 + Math.random() * 300);
+                    }
+                }
+                setTimeout(hackStep, 500);
+            },
+            matrix: function() {
+                termPrint('');
+                const matrixEl = document.getElementById('matrix-canvas');
+                const original = matrixEl.style.opacity;
+                matrixEl.style.opacity = '0.15';
+                matrixEl.style.transition = 'opacity 0.5s';
+                termPrint('  You\'ve entered the matrix.', 'green');
+                termPrint('  Wake up, Neo...', 'green');
+                termPrint('  (the rain will fade in a few seconds)', '');
+                setTimeout(() => {
+                    matrixEl.style.opacity = original;
+                }, 5000);
+                termPrint('');
+            },
+            ping: function(args) {
+                const target = args || 'dhruv.local';
+                termPrint('');
+                termPrint('PING ' + target + ' (127.0.0.1): 56 data bytes', 'green');
+                let seq = 0;
+                function pingStep() {
+                    if (seq < 4) {
+                        const ms = (Math.random() * 2 + 0.3).toFixed(3);
+                        termPrint('64 bytes from 127.0.0.1: icmp_seq=' + seq + ' ttl=64 time=' + ms + ' ms');
+                        seq++;
+                        setTimeout(pingStep, 600);
+                    } else {
+                        termPrint('');
+                        termPrint('--- ' + target + ' ping statistics ---');
+                        termPrint('4 packets transmitted, 4 received, 0% packet loss');
+                        termPrint('');
+                    }
+                }
+                setTimeout(pingStep, 400);
+            },
+            uptime: function() {
+                const start = new Date('2025-01-01');
+                const now = new Date();
+                const days = Math.floor((now - start) / 86400000);
+                termPrint('');
+                termPrint('  up ' + days + ' days, still shipping.', 'green');
+                termPrint('');
+            },
+            date: function() {
+                termPrint(new Date().toString());
+            },
+            coffee: function() {
+                termPrint('');
+                termPrint('         ( (');
+                termPrint('          ) )');
+                termPrint('        ........');
+                termPrint('        |      |]');
+                termPrint('        \\      /');
+                termPrint('         `----\'');
+                termPrint('');
+                termPrint('  Brewing... ☕ done.', 'green');
+                termPrint('  Now get back to coding.', '');
+                termPrint('');
+            },
+            rickroll: function() {
+                termPrint('');
+                termPrint('  Never gonna give you up...', 'green');
+                termPrint('  Never gonna let you down...', 'green');
+                termPrint('  Never gonna run around and desert you.', 'green');
+                termPrint('');
+                termPrint('  You asked for it.', 'purple');
+                termPrint('');
+            },
+            secret: function() {
+                termPrint('');
+                termPrintHTML('  <span style="color:#aa44ff">▒▒▒ CLASSIFIED ▒▒▒</span>');
+                termPrint('');
+                termPrint('  You found the easter egg. Here\'s a secret:');
+                termPrint('  This entire site is a single HTML file.');
+                termPrint('  No frameworks. No build tools. No dependencies.');
+                termPrint('  Just raw HTML, CSS, and JS — the way it should be.');
+                termPrint('');
+                termPrint('  Also try: cat .secret', 'green');
+                termPrint('');
+            },
+            history: function() {
+                termPrint('');
+                if (commandHistory.length === 0) {
+                    termPrint('  No commands yet.', 'purple');
+                } else {
+                    commandHistory.forEach(function(cmd, i) {
+                        termPrint('  ' + (i + 1) + '  ' + cmd);
+                    });
+                }
                 termPrint('');
             },
             clear: function() {
                 terminalBody.innerHTML = '';
+            },
+            rm: function(args) {
+                if (args && args.includes('-rf')) {
+                    termPrint('');
+                    termPrint('  ☠️  Permission denied. Nice try though.', 'purple');
+                    termPrint('  This portfolio has plot armor.', 'purple');
+                    termPrint('');
+                } else {
+                    termPrint('rm: missing operand', 'purple');
+                }
+            },
+            exit: function() {
+                termPrint('');
+                termPrint('  Logout? Where would you even go?', 'purple');
+                termPrint('  The terminal is eternal.', 'purple');
+                termPrint('');
+            },
+            vim: function() {
+                termPrint('');
+                termPrint('  You\'re now stuck in vim.', 'purple');
+                termPrint('  Good luck getting out.', 'purple');
+                termPrint('  (hint: it\'s :q! ... or is it?)', '');
+                termPrint('');
+            },
+            ':q!': function() {
+                termPrint('');
+                termPrint('  Ah, a vim user. Respect.', 'green');
+                termPrint('');
+            },
+            ':wq': function() {
+                termPrint('');
+                termPrint('  Saved. But what did you write?', 'green');
+                termPrint('');
             }
         };
 
@@ -1399,10 +1683,22 @@
             const cmd = parts[0].toLowerCase();
             const args = parts.slice(1).join(' ');
 
-            if (commands[cmd]) {
-                commands[cmd](args);
-            } else if (cmd === 'echo') {
+            if (cmd === 'echo') {
                 termPrint(args || '');
+            } else if (cmd === 'sudo') {
+                commands.sudo(args);
+            } else if (cmd === 'cat') {
+                commands.cat(args);
+            } else if (cmd === 'cowsay') {
+                commands.cowsay(args);
+            } else if (cmd === 'ping') {
+                commands.ping(args);
+            } else if (cmd === 'rm') {
+                commands.rm(args);
+            } else if (commands[cmd]) {
+                commands[cmd](args);
+            } else if (trimmed === ':q!' || trimmed === ':wq') {
+                commands[trimmed]();
             } else {
                 termPrint('Command not found: ' + cmd + '. Type \'help\' for available commands.', 'purple');
             }
