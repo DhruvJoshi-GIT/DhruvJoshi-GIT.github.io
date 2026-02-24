@@ -87,9 +87,9 @@
         }
 
         /* ============================================
-           CSS — Canvas Overlays
+           CSS — Hero Blob Container
            ============================================ */
-        #matrix-canvas {
+        #hero-blob-container {
             position: fixed;
             top: 0;
             left: 0;
@@ -97,17 +97,82 @@
             height: 100%;
             pointer-events: none;
             z-index: 1;
-            opacity: 0.03;
+            transition: opacity 0.1s linear;
         }
 
-        #particle-canvas {
+        /* ============================================
+           CSS — Scroll-to-Top Button
+           ============================================ */
+        #scroll-top-btn {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            bottom: 2rem;
+            right: 2rem;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            cursor: pointer;
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
             pointer-events: none;
-            z-index: 1;
+            transition: opacity 0.3s, border-color 0.3s, color 0.3s, box-shadow 0.3s;
+        }
+        #scroll-top-btn.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        #scroll-top-btn:hover {
+            border-color: var(--accent-green);
+            color: var(--accent-green);
+            box-shadow: 0 0 20px rgba(0,255,136,0.2);
+        }
+
+        /* ============================================
+           CSS — Active Nav Link
+           ============================================ */
+        .nav-links a.active {
+            color: var(--accent-green);
+        }
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        /* ============================================
+           CSS — Blog Coming Soon Badge
+           ============================================ */
+        .coming-soon-badge {
+            display: inline-block;
+            background: rgba(0,170,255,0.12);
+            border: 1px solid rgba(0,170,255,0.3);
+            border-radius: 12px;
+            padding: 0.15rem 0.6rem;
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            color: var(--accent-blue);
+            margin-left: 0.5rem;
+            vertical-align: middle;
+            letter-spacing: 0.5px;
+        }
+
+        /* ============================================
+           CSS — prefers-reduced-motion
+           ============================================ */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+            #hero-blob-container,
+            #cursor-glow {
+                display: none !important;
+            }
         }
 
         /* ============================================
@@ -805,6 +870,10 @@
                 gap: 1rem;
                 border-bottom: 1px solid var(--border-color);
             }
+            .nav-links a {
+                font-size: 1.1rem;
+                padding: 0.5rem 0;
+            }
             .nav-links.open {
                 display: flex;
             }
@@ -859,9 +928,11 @@
     <!-- Cursor Glow -->
     <div id="cursor-glow"></div>
 
-    <!-- Canvas Overlays -->
-    <canvas id="matrix-canvas"></canvas>
-    <canvas id="particle-canvas"></canvas>
+    <!-- 3D Blob Container -->
+    <div id="hero-blob-container"></div>
+
+    <!-- Scroll to Top -->
+    <button id="scroll-top-btn" aria-label="Scroll to top">&#8679;</button>
 
     <!-- Navigation -->
     <nav>
@@ -901,7 +972,7 @@
         <div class="about-grid">
             <img src="https://avatars.githubusercontent.com/u/87961604?v=4" alt="Dhruv Joshi" class="about-avatar fade-in">
             <div class="about-text">
-                <p class="fade-in">Hey! I'm <strong style="color:var(--text-primary)">Dhruv Joshi</strong>, a Forward Deployed Engineer based at GEC Raipur. I build and ship tools that solve real problems — from collaborative code editors to algorithm visualizers to systems-level deep dives.</p>
+                <p class="fade-in">Hey! I'm <strong style="color:var(--text-primary)">Dhruv Joshi</strong>, a Forward Deployed Engineer studying Electronics and Telecom. at GEC Raipur. I build and ship tools that solve real problems — from collaborative code editors to algorithm visualizers to systems-level deep dives.</p>
                 <p class="fade-in">I work at the boundary between engineering and impact — understanding the problem first, then deploying the right solution. I believe in shipping fast and iterating in the field.</p>
 
                 <div class="about-terminal fade-in">
@@ -911,7 +982,7 @@
                         <div class="term-dot green"></div>
                     </div>
                     <div class="term-line"><span class="key">name</span>      : <span class="val">Dhruv Joshi</span></div>
-                    <div class="term-line"><span class="key">education</span>  : <span class="val">FDE @ GEC Raipur</span></div>
+                    <div class="term-line"><span class="key">education</span>  : <span class="val">Electronics and Telecom. @ GEC Raipur</span></div>
                     <div class="term-line"><span class="key">focus</span>     : <span class="val">Forward Deployed Engineering</span></div>
                     <div class="term-line"><span class="key">currently</span>  : <span class="val">Building cool things ▮</span></div>
                 </div>
@@ -999,19 +1070,19 @@
                 <div class="blog-date">2025-12-15</div>
                 <h3>Why I Chose Rust Over C++ for Systems Programming</h3>
                 <p>A first-year student's perspective on memory safety, borrow checkers, and the Rust ecosystem.</p>
-                <a href="#" class="read-more">Read More &rarr;</a>
+                <a href="#" class="read-more" onclick="event.preventDefault()">Read More &rarr;<span class="coming-soon-badge">Coming Soon</span></a>
             </div>
             <div class="blog-card fade-in fade-in-delay-2">
                 <div class="blog-date">2025-11-02</div>
                 <h3>Building a Collaborative Editor from Scratch</h3>
                 <p>The architecture behind CODEDEX — CRDTs, WebSockets, and real-time conflict resolution.</p>
-                <a href="#" class="read-more">Read More &rarr;</a>
+                <a href="#" class="read-more" onclick="event.preventDefault()">Read More &rarr;<span class="coming-soon-badge">Coming Soon</span></a>
             </div>
             <div class="blog-card fade-in fade-in-delay-3">
                 <div class="blog-date">2025-09-20</div>
                 <h3>Visualizing Algorithms Changed How I Learn</h3>
                 <p>How building cs-visual-lab helped me truly understand sorting and graph algorithms.</p>
-                <a href="#" class="read-more">Read More &rarr;</a>
+                <a href="#" class="read-more" onclick="event.preventDefault()">Read More &rarr;<span class="coming-soon-badge">Coming Soon</span></a>
             </div>
         </div>
     </section>
@@ -1063,144 +1134,332 @@
 
     <!-- Footer -->
     <footer>
-        <p>Built by <span>Dhruv Joshi</span> &mdash; 2025</p>
+        <p>Built by <span>Dhruv Joshi</span> &mdash; <span id="footer-year">2025</span></p>
     </footer>
 
     <!-- ============================================
          JavaScript
          ============================================ -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r168/three.min.js"></script>
     <script>
     (function() {
         'use strict';
 
         /* ==========================================
-           JS — Cursor Glow
+           JS — Cursor Glow (rAF-throttled)
            ========================================== */
         const cursorGlow = document.getElementById('cursor-glow');
-        let mouseX = 0, mouseY = 0;
-
-        document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-            cursorGlow.style.left = mouseX + 'px';
-            cursorGlow.style.top = mouseY + 'px';
-        });
+        let mouseX = 0, mouseY = 0, cursorRafPending = false;
 
         /* ==========================================
-           JS — Matrix Rain
+           JS — 3D Particle Blob (Three.js)
            ========================================== */
-        const matrixCanvas = document.getElementById('matrix-canvas');
-        const matrixCtx = matrixCanvas.getContext('2d');
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const blobContainer = document.getElementById('hero-blob-container');
+        let blobAnimId = null;
 
-        function resizeMatrix() {
-            matrixCanvas.width = window.innerWidth;
-            matrixCanvas.height = window.innerHeight;
+        // Simplex 3D noise (public domain — Stefan Gustavson)
+        const _snGrad3 = [[1,1,0],[-1,1,0],[1,-1,0],[-1,-1,0],[1,0,1],[-1,0,1],[1,0,-1],[-1,0,-1],[0,1,1],[0,-1,1],[0,1,-1],[0,-1,-1]];
+        const _snP = [151,160,137,91,90,15,131,13,201,95,96,53,194,233,7,225,140,36,103,30,69,142,8,99,37,240,21,10,23,190,6,148,247,120,234,75,0,26,197,62,94,252,219,203,117,35,11,32,57,177,33,88,237,149,56,87,174,20,125,136,171,168,68,175,74,165,71,134,139,48,27,166,77,146,158,231,83,111,229,122,60,211,133,230,220,105,92,41,55,46,245,40,244,102,143,54,65,25,63,161,1,216,80,73,209,76,132,187,208,89,18,169,200,196,135,130,116,188,159,86,164,100,109,198,173,186,3,64,52,217,226,250,124,123,5,202,38,147,118,126,255,82,85,212,207,206,59,227,47,16,58,17,182,189,28,42,223,183,170,213,119,248,152,2,44,154,163,70,221,153,101,155,167,43,172,9,129,22,39,253,19,98,108,110,79,113,224,232,178,185,112,104,218,246,97,228,251,34,242,193,238,210,144,12,191,179,162,241,81,51,145,235,249,14,239,107,49,192,214,31,181,199,106,157,184,84,204,176,115,121,50,45,127,4,150,254,138,236,205,93,222,114,67,29,24,72,243,141,128,195,78,66,215,61,156,180];
+        const _snPerm = new Array(512); const _snPermMod12 = new Array(512);
+        for (let i = 0; i < 512; i++) { _snPerm[i] = _snP[i & 255]; _snPermMod12[i] = _snPerm[i] % 12; }
+        function _snDot3(g, x, y, z) { return g[0]*x + g[1]*y + g[2]*z; }
+        const _snF3 = 1/3, _snG3 = 1/6;
+        function simplex3(xin, yin, zin) {
+            var s = (xin+yin+zin)*_snF3, i = Math.floor(xin+s), j = Math.floor(yin+s), k = Math.floor(zin+s);
+            var t = (i+j+k)*_snG3, x0 = xin-(i-t), y0 = yin-(j-t), z0 = zin-(k-t);
+            var i1,j1,k1,i2,j2,k2;
+            if(x0>=y0){if(y0>=z0){i1=1;j1=0;k1=0;i2=1;j2=1;k2=0;}else if(x0>=z0){i1=1;j1=0;k1=0;i2=1;j2=0;k2=1;}else{i1=0;j1=0;k1=1;i2=1;j2=0;k2=1;}}
+            else{if(y0<z0){i1=0;j1=0;k1=1;i2=0;j2=1;k2=1;}else if(x0<z0){i1=0;j1=1;k1=0;i2=0;j2=1;k2=1;}else{i1=0;j1=1;k1=0;i2=1;j2=1;k2=0;}}
+            var x1=x0-i1+_snG3,y1=y0-j1+_snG3,z1=z0-k1+_snG3,x2=x0-i2+2*_snG3,y2=y0-j2+2*_snG3,z2=z0-k2+2*_snG3,x3=x0-1+3*_snG3,y3=y0-1+3*_snG3,z3=z0-1+3*_snG3;
+            var ii=i&255,jj=j&255,kk=k&255;
+            var n0=0,n1=0,n2=0,n3=0;
+            var t0=0.6-x0*x0-y0*y0-z0*z0;if(t0>=0){t0*=t0;n0=t0*t0*_snDot3(_snGrad3[_snPermMod12[ii+_snPerm[jj+_snPerm[kk]]]],x0,y0,z0);}
+            var t1=0.6-x1*x1-y1*y1-z1*z1;if(t1>=0){t1*=t1;n1=t1*t1*_snDot3(_snGrad3[_snPermMod12[ii+i1+_snPerm[jj+j1+_snPerm[kk+k1]]]],x1,y1,z1);}
+            var t2=0.6-x2*x2-y2*y2-z2*z2;if(t2>=0){t2*=t2;n2=t2*t2*_snDot3(_snGrad3[_snPermMod12[ii+i2+_snPerm[jj+j2+_snPerm[kk+k2]]]],x2,y2,z2);}
+            var t3=0.6-x3*x3-y3*y3-z3*z3;if(t3>=0){t3*=t3;n3=t3*t3*_snDot3(_snGrad3[_snPermMod12[ii+1+_snPerm[jj+1+_snPerm[kk+1]]]],x3,y3,z3);}
+            return 32*(n0+n1+n2+n3);
         }
-        resizeMatrix();
 
-        const matrixChars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-        const fontSize = 14;
-        let columns = Math.floor(matrixCanvas.width / fontSize);
-        let drops = Array(columns).fill(1);
+        // Blob state
+        let blobMouse = {x: 9999, y: 9999};
+        let blobPulseUntil = 0; // for terminal 'matrix' command
 
-        function drawMatrix() {
-            matrixCtx.fillStyle = 'rgba(10, 10, 10, 0.05)';
-            matrixCtx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
-            matrixCtx.fillStyle = '#00ff88';
-            matrixCtx.font = fontSize + 'px monospace';
+        if (!prefersReducedMotion && typeof THREE !== 'undefined') {
+            const isMobile = window.innerWidth < 768;
+            const PARTICLE_COUNT = isMobile ? 2000 : 4000;
+            const REPULSE_RADIUS = 0.8;
+            const SPHERE_RADIUS = 1.8;
 
-            for (let i = 0; i < drops.length; i++) {
-                const char = matrixChars[Math.floor(Math.random() * matrixChars.length)];
-                matrixCtx.fillText(char, i * fontSize, drops[i] * fontSize);
-                if (drops[i] * fontSize > matrixCanvas.height && Math.random() > 0.975) {
-                    drops[i] = 0;
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100);
+            camera.position.z = 4.5;
+
+            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: !isMobile });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(isMobile ? 1 : Math.min(window.devicePixelRatio, 2));
+            blobContainer.appendChild(renderer.domElement);
+
+            // Fibonacci sphere distribution
+            const basePositions = new Float32Array(PARTICLE_COUNT * 3);
+            const currentPositions = new Float32Array(PARTICLE_COUNT * 3);
+            const goldenAngle = Math.PI * (3 - Math.sqrt(5));
+            for (let i = 0; i < PARTICLE_COUNT; i++) {
+                const y = 1 - (i / (PARTICLE_COUNT - 1)) * 2;
+                const radiusAtY = Math.sqrt(1 - y * y);
+                const theta = goldenAngle * i;
+                basePositions[i * 3]     = Math.cos(theta) * radiusAtY * SPHERE_RADIUS;
+                basePositions[i * 3 + 1] = y * SPHERE_RADIUS;
+                basePositions[i * 3 + 2] = Math.sin(theta) * radiusAtY * SPHERE_RADIUS;
+                currentPositions[i * 3]     = basePositions[i * 3];
+                currentPositions[i * 3 + 1] = basePositions[i * 3 + 1];
+                currentPositions[i * 3 + 2] = basePositions[i * 3 + 2];
+            }
+
+            const particleGeometry = new THREE.BufferGeometry();
+            particleGeometry.setAttribute('position', new THREE.BufferAttribute(currentPositions, 3));
+
+            const particleMaterial = new THREE.ShaderMaterial({
+                uniforms: {
+                    uTime: { value: 0 },
+                    uPixelRatio: { value: renderer.getPixelRatio() }
+                },
+                vertexShader: `
+                    uniform float uTime;
+                    uniform float uPixelRatio;
+                    varying float vDist;
+                    void main() {
+                        vec4 mvPos = modelViewMatrix * vec4(position, 1.0);
+                        vDist = length(position) / 2.0;
+                        gl_PointSize = (3.0 * uPixelRatio) / -mvPos.z;
+                        gl_Position = projectionMatrix * mvPos;
+                    }
+                `,
+                fragmentShader: `
+                    varying float vDist;
+                    void main() {
+                        float d = length(gl_PointCoord - 0.5) * 2.0;
+                        if (d > 1.0) discard;
+                        float alpha = (1.0 - d) * 0.7;
+                        vec3 col = mix(vec3(0.0, 1.0, 0.53), vec3(0.0, 0.6, 0.35), vDist);
+                        gl_FragColor = vec4(col, alpha);
+                    }
+                `,
+                transparent: true,
+                blending: THREE.AdditiveBlending,
+                depthWrite: false
+            });
+
+            const pointsMesh = new THREE.Points(particleGeometry, particleMaterial);
+            scene.add(pointsMesh);
+
+            // Glow aura sphere
+            const glowMaterial = new THREE.ShaderMaterial({
+                uniforms: { uTime: { value: 0 } },
+                vertexShader: `
+                    varying vec3 vNormal;
+                    void main() {
+                        vNormal = normalize(normalMatrix * normal);
+                        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+                    }
+                `,
+                fragmentShader: `
+                    varying vec3 vNormal;
+                    uniform float uTime;
+                    void main() {
+                        float intensity = pow(0.65 - dot(vNormal, vec3(0.0, 0.0, 1.0)), 3.0);
+                        gl_FragColor = vec4(0.0, 1.0, 0.53, intensity * 0.25);
+                    }
+                `,
+                transparent: true,
+                blending: THREE.AdditiveBlending,
+                side: THREE.BackSide,
+                depthWrite: false
+            });
+            const glowMesh = new THREE.Mesh(new THREE.SphereGeometry(SPHERE_RADIUS * 1.3, 32, 32), glowMaterial);
+            scene.add(glowMesh);
+
+            // Mouse interaction (desktop only)
+            const raycaster = new THREE.Raycaster();
+            const mouseNDC = new THREE.Vector2(9999, 9999);
+            const invisibleSphere = new THREE.Mesh(
+                new THREE.SphereGeometry(SPHERE_RADIUS * 1.2, 16, 16),
+                new THREE.MeshBasicMaterial({ visible: false })
+            );
+            scene.add(invisibleSphere);
+
+            // Unified mousemove handler
+            document.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+                if (!cursorRafPending) {
+                    cursorRafPending = true;
+                    requestAnimationFrame(() => {
+                        cursorGlow.style.left = mouseX + 'px';
+                        cursorGlow.style.top = mouseY + 'px';
+                        cursorRafPending = false;
+                    });
                 }
-                drops[i]++;
-            }
-        }
+                if (!isMobile) {
+                    mouseNDC.x = (e.clientX / window.innerWidth) * 2 - 1;
+                    mouseNDC.y = -(e.clientY / window.innerHeight) * 2 + 1;
+                }
+            });
 
-        setInterval(drawMatrix, 50);
+            const _repulsePoint = new THREE.Vector3();
+            let blobTime = 0;
 
-        /* ==========================================
-           JS — Particle System
-           ========================================== */
-        const particleCanvas = document.getElementById('particle-canvas');
-        const pCtx = particleCanvas.getContext('2d');
+            function animateBlob() {
+                blobAnimId = requestAnimationFrame(animateBlob);
+                blobTime += 0.008;
 
-        function resizeParticles() {
-            particleCanvas.width = window.innerWidth;
-            particleCanvas.height = window.innerHeight;
-        }
-        resizeParticles();
+                particleMaterial.uniforms.uTime.value = blobTime;
+                glowMaterial.uniforms.uTime.value = blobTime;
 
-        const particles = [];
-        const particleCount = Math.min(60, Math.floor(window.innerWidth / 20));
+                // Slow auto-rotation
+                pointsMesh.rotation.y += 0.002;
+                glowMesh.rotation.y = pointsMesh.rotation.y;
+                invisibleSphere.rotation.y = pointsMesh.rotation.y;
 
-        class Particle {
-            constructor() {
-                this.reset();
-            }
-            reset() {
-                this.x = Math.random() * particleCanvas.width;
-                this.y = Math.random() * particleCanvas.height;
-                this.vx = (Math.random() - 0.5) * 0.4;
-                this.vy = (Math.random() - 0.5) * 0.4;
-                this.radius = Math.random() * 1.5 + 0.5;
-                this.opacity = Math.random() * 0.3 + 0.05;
-            }
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
-                if (this.x < 0 || this.x > particleCanvas.width) this.vx *= -1;
-                if (this.y < 0 || this.y > particleCanvas.height) this.vy *= -1;
-            }
-            draw() {
-                pCtx.beginPath();
-                pCtx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                pCtx.fillStyle = 'rgba(0, 255, 136, ' + this.opacity + ')';
-                pCtx.fill();
-            }
-        }
-
-        for (let i = 0; i < particleCount; i++) {
-            particles.push(new Particle());
-        }
-
-        function connectParticles() {
-            for (let a = 0; a < particles.length; a++) {
-                for (let b = a + 1; b < particles.length; b++) {
-                    const dx = particles[a].x - particles[b].x;
-                    const dy = particles[a].y - particles[b].y;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-                    if (dist < 120) {
-                        pCtx.beginPath();
-                        pCtx.strokeStyle = 'rgba(0, 255, 136, ' + (0.06 * (1 - dist / 120)) + ')';
-                        pCtx.lineWidth = 0.5;
-                        pCtx.moveTo(particles[a].x, particles[a].y);
-                        pCtx.lineTo(particles[b].x, particles[b].y);
-                        pCtx.stroke();
+                // Raycaster for mouse repulsion
+                let hasHit = false;
+                if (!isMobile) {
+                    raycaster.setFromCamera(mouseNDC, camera);
+                    const hits = raycaster.intersectObject(invisibleSphere);
+                    if (hits.length > 0) {
+                        // Transform hit point into local space of the points mesh
+                        _repulsePoint.copy(hits[0].point);
+                        pointsMesh.worldToLocal(_repulsePoint);
+                        hasHit = true;
                     }
                 }
+
+                // Pulse effect (for matrix command)
+                const isPulsing = Date.now() < blobPulseUntil;
+                const pulseAmp = isPulsing ? 0.4 : 0;
+
+                // Update particle positions with noise breathing + repulsion
+                const posAttr = particleGeometry.getAttribute('position');
+                for (let i = 0; i < PARTICLE_COUNT; i++) {
+                    const bx = basePositions[i * 3];
+                    const by = basePositions[i * 3 + 1];
+                    const bz = basePositions[i * 3 + 2];
+
+                    // Noise-based breathing deformation
+                    const noiseVal = simplex3(bx * 0.8 + blobTime * 0.5, by * 0.8 + blobTime * 0.3, bz * 0.8) * 0.15;
+                    const pulseNoise = isPulsing ? simplex3(bx * 2 + blobTime * 3, by * 2, bz * 2) * pulseAmp : 0;
+                    const len = Math.sqrt(bx * bx + by * by + bz * bz);
+                    const nx = bx / len, ny = by / len, nz = bz / len;
+                    let tx = bx + nx * (noiseVal + pulseNoise);
+                    let ty = by + ny * (noiseVal + pulseNoise);
+                    let tz = bz + nz * (noiseVal + pulseNoise);
+
+                    // Repulsion from cursor
+                    if (hasHit) {
+                        const dx = tx - _repulsePoint.x;
+                        const dy = ty - _repulsePoint.y;
+                        const dz = tz - _repulsePoint.z;
+                        const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
+                        if (dist < REPULSE_RADIUS && dist > 0.001) {
+                            const force = (1 - dist / REPULSE_RADIUS) * 0.5;
+                            tx += (dx / dist) * force;
+                            ty += (dy / dist) * force;
+                            tz += (dz / dist) * force;
+                        }
+                    }
+
+                    // Smooth lerp toward target
+                    posAttr.array[i * 3]     += (tx - posAttr.array[i * 3]) * 0.08;
+                    posAttr.array[i * 3 + 1] += (ty - posAttr.array[i * 3 + 1]) * 0.08;
+                    posAttr.array[i * 3 + 2] += (tz - posAttr.array[i * 3 + 2]) * 0.08;
+                }
+                posAttr.needsUpdate = true;
+
+                renderer.render(scene, camera);
             }
+            animateBlob();
+            _blobAnimateFn = animateBlob;
+
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        } else {
+            // Reduced motion or no Three.js — still handle cursor glow
+            document.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+                if (!cursorRafPending) {
+                    cursorRafPending = true;
+                    requestAnimationFrame(() => {
+                        cursorGlow.style.left = mouseX + 'px';
+                        cursorGlow.style.top = mouseY + 'px';
+                        cursorRafPending = false;
+                    });
+                }
+            });
         }
 
-        function animateParticles() {
-            pCtx.clearRect(0, 0, particleCanvas.width, particleCanvas.height);
-            for (const p of particles) {
-                p.update();
-                p.draw();
+        /* ==========================================
+           JS — Blob fade on scroll
+           ========================================== */
+        window.addEventListener('scroll', () => {
+            if (blobContainer) {
+                const fade = Math.max(0, 1 - window.scrollY / window.innerHeight);
+                blobContainer.style.opacity = fade;
             }
-            connectParticles();
-            requestAnimationFrame(animateParticles);
-        }
-        animateParticles();
+        }, { passive: true });
 
-        window.addEventListener('resize', () => {
-            resizeMatrix();
-            columns = Math.floor(matrixCanvas.width / fontSize);
-            drops = Array(columns).fill(1);
-            resizeParticles();
+        /* ==========================================
+           JS — Visibility API (pause blob)
+           ========================================== */
+        let _blobAnimateFn = null; // set inside the blob init block
+        document.addEventListener('visibilitychange', () => {
+            if (prefersReducedMotion) return;
+            if (document.hidden) {
+                if (blobAnimId) { cancelAnimationFrame(blobAnimId); blobAnimId = null; }
+            } else {
+                if (!blobAnimId && _blobAnimateFn) { _blobAnimateFn(); }
+            }
         });
+
+        /* ==========================================
+           JS — Scroll-to-top button
+           ========================================== */
+        const scrollTopBtn = document.getElementById('scroll-top-btn');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 600) {
+                scrollTopBtn.classList.add('visible');
+            } else {
+                scrollTopBtn.classList.remove('visible');
+            }
+        }, { passive: true });
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        /* ==========================================
+           JS — Scroll Spy (active nav link)
+           ========================================== */
+        const navLinksAll = document.querySelectorAll('.nav-links a[href^="#"]');
+        const spySections = document.querySelectorAll('section[id]');
+        window.addEventListener('scroll', () => {
+            let current = '';
+            spySections.forEach(sec => {
+                const top = sec.offsetTop - 120;
+                if (window.scrollY >= top) current = sec.getAttribute('id');
+            });
+            navLinksAll.forEach(a => {
+                a.classList.remove('active');
+                if (a.getAttribute('href') === '#' + current) a.classList.add('active');
+            });
+        }, { passive: true });
+
+        /* ==========================================
+           JS — Dynamic Footer Year
+           ========================================== */
+        document.getElementById('footer-year').textContent = new Date().getFullYear();
 
         /* ==========================================
            JS — Typing Animation
@@ -1546,16 +1805,11 @@
             },
             matrix: function() {
                 termPrint('');
-                const matrixEl = document.getElementById('matrix-canvas');
-                const original = matrixEl.style.opacity;
-                matrixEl.style.opacity = '0.15';
-                matrixEl.style.transition = 'opacity 0.5s';
                 termPrint('  You\'ve entered the matrix.', 'green');
                 termPrint('  Wake up, Neo...', 'green');
-                termPrint('  (the rain will fade in a few seconds)', '');
-                setTimeout(() => {
-                    matrixEl.style.opacity = original;
-                }, 5000);
+                termPrint('  (watch the blob pulse)', '');
+                blobPulseUntil = Date.now() + 5000;
+                window.scrollTo({ top: 0, behavior: 'smooth' });
                 termPrint('');
             },
             ping: function(args) {
@@ -1617,8 +1871,8 @@
                 termPrint('');
                 termPrint('  You found the easter egg. Here\'s a secret:');
                 termPrint('  This entire site is a single HTML file.');
-                termPrint('  No frameworks. No build tools. No dependencies.');
-                termPrint('  Just raw HTML, CSS, and JS — the way it should be.');
+                termPrint('  No frameworks. No build tools. One CDN dep (Three.js).');
+                termPrint('  Just raw HTML, CSS, JS, and a 3D blob — deployed raw.');
                 termPrint('');
                 termPrint('  Also try: cat .secret', 'green');
                 termPrint('');
